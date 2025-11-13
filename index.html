@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>H5P 成績分數顯示範例 (p5.js)</title>
+    
+    <!-- 使用本機 p5.js，並載入問答程式 (sketch.js) -->
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+    
+    <style>
+        /* 讓內容置中方便查看 */
+        body { 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh; 
+            font-family: Arial, sans-serif;
+        }
+        #h5pContainer {
+            margin-top: 20px;
+        }
+        /* p5.js Canvas 會自動創建在 body 內 */
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>413730069陳波波的測驗題</h1>
+    
+    <div id="h5pContainer">
+        <!-- 單元選單 -->
+        <div id="startScreen" class="card">
+            <div class="card-inner start-inner">
+                <h2 class="start-title">防災學習單元</h2>
+                <p class="start-desc">請選擇單元：第一單元為影片學習；第二單元為是非題測驗（共隨機抽 10 題）。</p>
+                <div style="display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+                    <button id="unit1Btn" class="next">單元 1：影片</button>
+                    <button id="unit2Btn" class="next">單元 2：測驗</button>
+                    <button id="unit3Btn" class="next">單元 3：拖曳題</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 影片單元（單元1） -->
+        <div id="videoUnit" class="card hidden">
+            <div class="card-inner">
+                <h3>單元 1：防災影片</h3>
+                <div class="video-wrap" style="display:flex;justify-content:center;">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/EfWNBCy0qQY?si=4ZTRshUYGwUk5a9U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div style="display:flex;justify-content:center;margin-top:12px;">
+                    <button id="videoBackBtn" class="next">回到單元選單</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 單元三：拖曳式選擇題 -->
+        <div id="unit3" class="card hidden">
+            <div class="card-inner">
+                <h3>單元 3：拖曳式選擇題</h3>
+                <div id="unit3Question" class="question"></div>
+
+                <div id="unit3Options" class="choices" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                    <!-- 選項會動態產生為可拖曳元素 -->
+                </div>
+
+                <div style="margin-top:12px;display:flex;justify-content:center;">
+                    <div id="unit3DropBox" class="dropbox">把你的答案拖到這裡</div>
+                </div>
+
+                <div class="meta" style="margin-top:12px;">
+                    <div id="unit3ScoreDisplay">得分: 0/0</div>
+                    <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;">
+                        <button id="unit3NextBtn" class="next" disabled>下一題</button>
+                        <button id="unit3BackBtn" class="next">回到單元選單</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 測驗卡片，初始化為隱藏，按開始後顯示 -->
+        <div id="quiz" class="card hidden">
+            <div class="card-inner">
+                <div id="progressBar" class="progress"><div id="progressFill"></div></div>
+                <div id="question" class="question"></div>
+                <div id="choices" class="choices"></div>
+                <div class="actions">
+                    <button id="trueBtn" class="tf-btn true">是 (True)</button>
+                    <button id="falseBtn" class="tf-btn false">否 (False)</button>
+                </div>
+                <div class="meta">
+                    <div id="scoreDisplay">得分: 0/0</div>
+                    <button id="nextBtn" class="next" disabled>下一題</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- p5.js Canvas（將顯示結束成績與視覺化） -->
+        <div id="canvasHolder"></div>
+    </div>
+    
+        <!-- 把 sketch.js 放到 body 結束前，確保 DOM 已建立 -->
+        <script src="sketch.js"></script>
+</body>
+</html>
+
